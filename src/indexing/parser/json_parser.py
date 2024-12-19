@@ -5,9 +5,9 @@ from typing import List
 
 class JsonParser:
     @staticmethod
-    def run(data_path) -> List[Document]:
-        with open(data_path, "r", encoding="utf-8") as file:
-            data = json.load(file)  # Load JSON data
+    def run(data:dict) -> List[Document]:
+        # with open(data_path, "r", encoding="utf-8") as file:
+        #     data = json.load(file)  # Load JSON data
 
         # Extract the list of chapters
         chapters = data.get("ListChuong", [])

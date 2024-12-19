@@ -7,8 +7,8 @@ from embedding import MultilingualE5Large
 
 class DataParsing:
     @staticmethod
-    def run(data_path: str, embedding_client: MultilingualE5Large):
-        list_doc = JsonParser.run(data_path=data_path)
+    def run(data: dict, embedding_client: MultilingualE5Large):
+        list_doc = JsonParser.run(data = data)
         chunks, ids = Chunker.run(documents=list_doc, embedding_client=embedding_client)
         return chunks, ids
 
