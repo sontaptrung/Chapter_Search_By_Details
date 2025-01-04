@@ -4,12 +4,12 @@ from langchain_core.output_parsers.string import StrOutputParser
 from llm import Llama3Engine
 from vector_database import QdrantEngine
 class Generator:
-    def __init__(self, llm:Llama3Engine):
+    def __init__(self, llm:Llama3Engine, vector_db: QdrantEngine):
         self._llm = llm
-
-    def run(self, query: str, vector_db: QdrantEngine, task="answer"):
+        self._vector_db = vector_db
+    def run(self, query: str, task="answer"):
         if task == "answer":
-            retrieve_contexts = self.run(query=query, vector_db = vector_db, task = "validate")
+            retrieve_contexts = self.run(query=query, task = "validate")
             if retrieve_contexts !=None:
                 prompt_template = ChatPromptTemplate(ANSWER_PROMPT)
                 output_parser = StrOutputParser()
@@ -18,7 +18,7 @@ class Generator:
             else :
                 return "Xin lỗi tôi không thể trả lời câu hỏi của bạn!"
         elif task == "validate":
-            top_10_retrieve = vector_db.search(query=query)
+            top_10_retrieve = self._vector_db.search(query=query)
             i=0
             for i in range(3):
                 top_3 = top_10_retrieve[i*3:i*3+3]

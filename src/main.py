@@ -10,7 +10,7 @@ app.include_router(data_router, prefix="/data_api")
 app.include_router(generate_router, prefix="/generate_api")
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="127.0.0.1", port=6666, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 
 # def main():
 #     embedding_client = MultilingualE5Large(model="http://localhost:8080")
