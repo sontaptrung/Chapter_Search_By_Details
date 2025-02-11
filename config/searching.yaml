@@ -1,0 +1,41 @@
+elements:
+  name: llama3.1
+  object: LLM
+  parameter:
+    -name: port
+     value: 8800
+    
+    -name: host
+    value: localhost:8080
+  
+  name: qdrant
+  
+nodes:
+  name: retriever
+  object: KnowledgeRetiriever
+  parameter:
+    name: llm
+    value: !USE qdrant
+  name: generator
+  object: Generator
+  parameter:
+    -name: llm
+    value: !USE llama3.1
+
+  name: valid_context
+  object: ContextValidator
+
+
+edges:
+  -source: START
+  target: KnowledgeRetiriever
+
+  -source: Generator
+  target: END
+
+conditional_edge:
+    source: KnowledgeRetiriever
+    target: valid_context
+    result:
+      0: KnowledgeRetiriever
+      1: Generator
